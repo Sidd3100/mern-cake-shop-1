@@ -1,6 +1,7 @@
 import React from 'react'
-import ProductList from '../features/product-list/productList'
+   
 import Navbar from '../features/navbar/Navbar'
+import ProductList from '../features/product-list/components/ProductList'
 
 export function Home() {
     
@@ -8,9 +9,9 @@ export function Home() {
     return (
         <>
             <Navbar>
-            
-            </Navbar>
             <ProductList></ProductList>
+            </Navbar>
+           
            
         </>
     )

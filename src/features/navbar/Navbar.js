@@ -34,7 +34,7 @@ import { Link } from 'react-router-dom'
     return classes.filter(Boolean).join(' ')
   }
   
-  export default function Navbar() {
+  export default function Navbar({children}) {
     return (
       <>
         
@@ -207,7 +207,7 @@ import { Link } from 'react-router-dom'
             </div>
           </header>
           <main>
-            <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
+            <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{children}</div>
           </main>
         </div>
       </>
