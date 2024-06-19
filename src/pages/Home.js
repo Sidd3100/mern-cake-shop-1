@@ -7,8 +7,11 @@ export function Home() {
 
     return (
         <>
-            <Navbar/>
-           <ProductList/> 
+            <Navbar>
+            
+            </Navbar>
+            <ProductList></ProductList>
+           
         </>
     )
 }
