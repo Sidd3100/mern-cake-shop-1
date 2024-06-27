@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 
 import {
   Dialog,
@@ -88,7 +89,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const products = [
+const oldproducts = [
   {
     id: 1,
     name: "Basic Tee",
@@ -142,9 +143,20 @@ const products = [
   // More products...
 ];
 
+
+
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
+  useEffect(()=>{
+    const fetchProducts = async () => {
+      const {data} = await axios.get('/api/products');
+      setProducts(data);
+    }
+    fetchProducts();
+  },[])
+ 
   return (
     <div className="bg-white">
       <div>
@@ -429,11 +441,11 @@ export default function ProductList() {
                       <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {products.map((product) => (
                           <Link to = '/product-detail'>
-                          <div key={product.id} className="group relative">
+                          <div key={product._id} className="group relative">
                             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                               <img
-                                src={product.imageSrc}
-                                alt={product.imageAlt}
+                                src={product.href}
+                                alt={product.alt}
                                 className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                               />
                             </div>
@@ -445,7 +457,7 @@ export default function ProductList() {
                                       aria-hidden="true"
                                       className="absolute inset-0"
                                     />
-                                    {product.title}
+                                    {product.name}
                                   </a>
                                 </h3>
                                 <p className="mt-1 text-sm text-gray-500">

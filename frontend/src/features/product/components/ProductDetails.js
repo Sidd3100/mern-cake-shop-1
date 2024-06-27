@@ -4,7 +4,7 @@ import { Radio, RadioGroup } from '@headlessui/react'
 
 const product = {
   name: 'Basic Tee 6-Pack',
-  price: '$192',
+  price: 'Rs 192',
   href: '#',
   breadcrumbs: [
     { id: 1, name: 'Men', href: '#' },
@@ -67,34 +67,7 @@ export default function ProductDetails() {
   return (
     <div className="bg-white">
       <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
-              </a>
-            </li>
-          </ol>
-        </nav>
+        
 
         {/* Image gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
@@ -165,38 +138,17 @@ export default function ProductDetails() {
             </div>
 
             <form className="mt-10">
-              {/* Colors */}
-              <div>
-                <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                <fieldset aria-label="Choose a color" className="mt-4">
-                  <RadioGroup value={selectedColor} onChange={setSelectedColor} className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
-                      <Radio
-                        key={color.name}
-                        value={color}
-                        aria-label={color.name}
-                        className={({ focus, checked }) =>
-                          classNames(
-                            color.selectedClass,
-                            focus && checked ? 'ring ring-offset-1' : '',
-                            !focus && checked ? 'ring-2' : '',
-                            'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none',
-                          )
-                        }
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={classNames(
-                            color.class,
-                            'h-8 w-8 rounded-full border border-black border-opacity-10',
-                          )}
-                        />
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                </fieldset>
-              </div>
+              {/* Cake Message */}
+               <div className = "mx-auto mt-6 max-w-4xl sm:px-2 lg:max-w-8xl ">
+               <label htmlFor="cakeMessage" className="block text-sm font-medium text-gray-700">Enter Cake Message</label>
+          <input
+            type="text"
+            name="cakeMessage"
+            id="cakeMessage"
+            className="mt-6 h-16 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Enter Message for your cake here..."
+          />
+               </div>
 
               {/* Sizes */}
               <div className="mt-10">
