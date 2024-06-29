@@ -31,13 +31,13 @@ const products =  [
         ],
         "details": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
         "sizes": [
-            { name: '0.5Kg', inStock: false },
-            { name: '1Kg', inStock: true },
-            { name: '2Kg', inStock: true },
-            { name: '2.5Kg', inStock: true },
-            { name: '3Kg', inStock: true },
-            { name: '4Kg', inStock: true },
-            { name: '5Kg', inStock: true },
+            { name: '0.5Kg', inStock: false ,countInstock:0},
+            { name: '1Kg', inStock: true, countInstock:10 },
+            { name: '2Kg', inStock: true ,countInstock:3},
+            { name: '2.5Kg', inStock: true, countInstock:5 },
+            { name: '3Kg', inStock: true,countInstock:4 },
+            { name: '4Kg', inStock: true,countInstock:6 },
+           
             
           ],
         

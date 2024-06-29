@@ -10,7 +10,7 @@ import {
   } from '@headlessui/react'
   import { Bars3Icon,ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
-  
+import { useSelector } from 'react-redux'
   const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -35,6 +35,8 @@ import { Link } from 'react-router-dom'
   }
   
   export default function Navbar({children}) {
+    const { cartItems } = useSelector((state) => state.cart);
+
     return (
       <>
         
@@ -74,6 +76,8 @@ import { Link } from 'react-router-dom'
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-4 flex items-center md:ml-6">
+
+                        {/* Cartitems */}
                         <Link to="/cart">
                         <button
                           type="button"
@@ -85,9 +89,9 @@ import { Link } from 'react-router-dom'
                           
                         </button>
                         </Link>
-                        <span className="z-10 inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-        3
-      </span>
+                        {cartItems.length > 0 && (
+                          <span className="z-10 inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{cartItems.reduce((a,c)=> a + c.qty,0)}</span>
+                        )}
   
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">

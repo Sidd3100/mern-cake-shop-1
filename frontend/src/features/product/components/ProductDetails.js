@@ -5,6 +5,9 @@ import { useParams } from 'react-router-dom'
 import { useGetProductDetailsQuery } from "../../../slices/productApiSlice";
 import Loader from '../../loader/loader';
 import { Alert } from '@material-tailwind/react';
+import { addToCart } from '../../../slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // const product = {
 //   name: 'Basic Tee 6-Pack',
@@ -57,14 +60,25 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-  
-  
 
   const {id: productId}= useParams()
 
   const {data: product, error, isLoading} = useGetProductDetailsQuery(productId)
   const [selectedSize, setSelectedSize] = useState(null)
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const addToCartHandler = () => {
+    
+    dispatch(addToCart({...product,cakeMessage, qty: 1, size: selectedSize.name}))
+    navigate('/cart')
+  }
+
+  const [cakeMessage, setCakeMessage] = useState('')
+  const handleInputChange = (e) => {
+    setCakeMessage(e.target.value)
+  }
   return (
     <>
     {isLoading ? (<Loader/>): error?(<div className="flex w-full flex-col gap-2">
@@ -151,6 +165,8 @@ export default function ProductDetails() {
             id="cakeMessage"
             className="mt-6 h-16 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Enter Message for your cake here..."
+            value = {cakeMessage}
+            onChange= {handleInputChange}
           />
                </div>
 
@@ -222,8 +238,8 @@ export default function ProductDetails() {
               <button
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Add to bag
+              onClick={addToCartHandler}>
+                Add to Cart
               </button>
             </form>
           </div>

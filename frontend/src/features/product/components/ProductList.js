@@ -434,7 +434,7 @@ export default function ProductList() {
                       </h2>
 
                      {isLoading ?( <Loader/> ): isError ? (<div className="flex w-full flex-col gap-2">
-                      <Alert color="red">{error.error||error.message}</Alert> </div>) : (
+                      <Alert color="red">{isError.error||isError.message}</Alert> </div>) : (
                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                        {products.map((product) => (
                          <Link to = {`product-detail/${product._id}`}>
