@@ -1,59 +1,55 @@
 import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
+import { useParams } from 'react-router-dom'
+import { useGetProductDetailsQuery } from "../../../slices/productApiSlice";
+import Loader from '../../loader/loader';
+import { Alert } from '@material-tailwind/react';
 
-const product = {
-  name: 'Basic Tee 6-Pack',
-  price: 'Rs 192',
-  href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
-  images: [
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-      alt: 'Two each of gray, white, and black shirts laying flat.',
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-      alt: 'Model wearing plain black basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-      alt: 'Model wearing plain gray basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-      alt: 'Model wearing plain white basic tee.',
-    },
-  ],
-  colors: [
-    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
-  ],
-  sizes: [
-    { name: '0.5Kg', inStock: false },
-    { name: '1Kg', inStock: true },
-    { name: '2Kg', inStock: true },
-    { name: '2.5Kg', inStock: true },
-    { name: '3Kg', inStock: true },
-    { name: '4Kg', inStock: true },
-    { name: '5Kg', inStock: true },
+// const product = {
+//   name: 'Basic Tee 6-Pack',
+//   price: 'Rs 192',
+//   href: '#',
+//   images: [
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
+//       alt: 'Two each of gray, white, and black shirts laying flat.',
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
+//       alt: 'Model wearing plain black basic tee.',
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
+//       alt: 'Model wearing plain gray basic tee.',
+//     },
+//     {
+//       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
+//       alt: 'Model wearing plain white basic tee.',
+//     },
+//   ],
+  
+//   sizes: [
+//     { name: '0.5Kg', inStock: false },
+//     { name: '1Kg', inStock: true },
+//     { name: '2Kg', inStock: true },
+//     { name: '2.5Kg', inStock: true },
+//     { name: '3Kg', inStock: true },
+//     { name: '4Kg', inStock: true },
+//     { name: '5Kg', inStock: true },
     
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    'Hand cut and sewn locally',
-    'Dyed with our proprietary colors',
-    'Pre-washed & pre-shrunk',
-    'Ultra-soft 100% cotton',
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-}
+//   ],
+//   description:
+//     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
+//   highlights: [
+//     'Hand cut and sewn locally',
+//     'Dyed with our proprietary colors',
+//     'Pre-washed & pre-shrunk',
+//     'Ultra-soft 100% cotton',
+//   ],
+//   details:
+//     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
+// }
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
 function classNames(...classes) {
@@ -61,11 +57,19 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  
+  
+
+  const {id: productId}= useParams()
+
+  const {data: product, error, isLoading} = useGetProductDetailsQuery(productId)
+  const [selectedSize, setSelectedSize] = useState(null)
 
   return (
-    <div className="bg-white">
+    <>
+    {isLoading ? (<Loader/>): error?(<div className="flex w-full flex-col gap-2">
+      <Alert color="red">{error.error||error.message}</Alert> </div>):(
+      <div className="bg-white">
       <div className="pt-6">
         
 
@@ -233,7 +237,7 @@ export default function ProductDetails() {
                 <p className="text-base text-gray-900">{product.description}</p>
               </div>
             </div>
-
+                    {/* highlights */}
             <div className="mt-10">
               <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
 
@@ -248,16 +252,19 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            <div className="mt-10">
+                  {/* details */}
+            {/* <div className="mt-10">
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
               <div className="mt-4 space-y-6">
                 <p className="text-sm text-gray-600">{product.details}</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
     </div>
+    )}
+    </>
   )
 }

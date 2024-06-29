@@ -14,16 +14,32 @@ const products =  [
             {
                 "src": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
                 "alt": "Essence Mascara Lash Princess"
-            }
-        ],
-        "message": "Happy Birthday John!",
-        
-        "sizes":[
+            },
             {
-                "name": 2,
-                "inStock":true,
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            },
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            },
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+                "alt": "Essence Mascara Lash Princess"
             }
+
         ],
+        "details": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+        "sizes": [
+            { name: '0.5Kg', inStock: false },
+            { name: '1Kg', inStock: true },
+            { name: '2Kg', inStock: true },
+            { name: '2.5Kg', inStock: true },
+            { name: '3Kg', inStock: true },
+            { name: '4Kg', inStock: true },
+            { name: '5Kg', inStock: true },
+            
+          ],
         
         "highlights": "Volumizing, Lengthening, Cruelty-Free",
         
