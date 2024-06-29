@@ -6,6 +6,8 @@ import connectDB from './config/db.js';
 import products from './data/product.js';
 import productRoutes from './routes/productRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import userRoutes from './routes/userRoutes.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -14,16 +16,17 @@ connectDB();
 const app = express();
 const port = 5000;
 
-// Read and parse the data.json file
-const __dirname = path.resolve();
-const rawData = readFileSync(path.join(__dirname, 'backend/data/data.json'), 'utf-8');
-const data = JSON.parse(rawData); // Parsing the JSON string
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());    
 
 app.get('/', (req, res) => {
     res.send('Server is ready');
 });
 
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);  
