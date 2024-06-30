@@ -7,6 +7,8 @@ import { Checkout } from './pages/Checkout';
 import { Home } from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 import * as React from "react";
 import { createRoot } from "react-dom/client";
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
     element: (<LoginPage />),
   },
   {
-    path: "/signup",
+    path: "/register",
     element: (<SignupPage />),
   },
   {
@@ -49,6 +51,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
+      <ToastContainer/>
     </div>
   );
 }

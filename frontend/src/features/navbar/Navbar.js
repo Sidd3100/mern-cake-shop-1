@@ -8,15 +8,21 @@ import {
     MenuItems,
     Transition,
   } from '@headlessui/react'
-  import { Bars3Icon,ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon,ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useLogoutMutation } from '../../slices/usersApiSlice'
+import { logout } from '../../slices/authSlice'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
   const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
     imageUrl:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
+  
   const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
@@ -24,11 +30,7 @@ import { useSelector } from 'react-redux'
     { name: 'Calendar', href: '#', current: false },
     { name: 'Reports', href: '#', current: false },
   ]
-  const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
-  ]
+
   
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -36,6 +38,23 @@ import { useSelector } from 'react-redux'
   
   export default function Navbar({children}) {
     const { cartItems } = useSelector((state) => state.cart);
+    const { userInfo } = useSelector((state) => state.auth);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [logoutUser] = useLogoutMutation();
+
+    const logouthandler = async() => {
+      try {
+        await logoutUser().unwrap();
+        dispatch(logout());
+        navigate('/login');
+        
+      } catch (error) {
+        console.log(error.error)
+      }
+    }
 
     return (
       <>
@@ -94,7 +113,7 @@ import { useSelector } from 'react-redux'
                         )}
   
                         {/* Profile dropdown */}
-                        <Menu as="div" className="relative ml-3">
+                        {userInfo?(<Menu as="div" className="relative ml-3">
                           <div>
                             <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                               <span className="absolute -inset-1.5" />
@@ -111,24 +130,32 @@ import { useSelector } from 'react-redux'
                             leaveTo="transform opacity-0 scale-95"
                           >
                             <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                              {userNavigation.map((item) => (
-                                <MenuItem key={item.name}>
-                                  {({ focus }) => (
-                                    <a
-                                      href={item.href}
-                                      className={classNames(
-                                        focus ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700',
-                                      )}
-                                    >
-                                      {item.name}
-                                    </a>
-                                  )}
-                                </MenuItem>
-                              ))}
+                            {userInfo?(
+                      <div className="mt-3 space-y-1 px-2">
+                      
+                        <Link
+                          to ='/profile'
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        >
+                          Profile
+                        </Link>
+                        <Link
+                          onClick = {logouthandler}
+                          to ='/'
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        >
+                          Logout
+                        </Link>
+                      
+                    </div>
+                    ):(<></>)}
                             </MenuItems>
                           </Transition>
-                        </Menu>
+                        </Menu>):(
+                    <div className="flex justify-center items-center h-full">
+                      <Link to="/login" className="text-white font-medium">Login</Link>
+                    </div>
+                  )}
                       </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
@@ -163,15 +190,26 @@ import { useSelector } from 'react-redux'
                       </DisclosureButton>
                     ))}
                   </div>
+
                   <div className="border-t border-gray-700 pb-3 pt-4">
+                  {userInfo?(
+                    
+                    <div className="flex justify-center items-center h-full">
                     <div className="flex items-center px-5">
-                      <div className="flex-shrink-0">
+                    <div className="flex-shrink-0">
                         <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
                       </div>
                       <div className="ml-3">
-                        <div className="text-base font-medium leading-none text-white">{user.name}</div>
-                        <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+                        <div className="text-base font-medium leading-none text-white">{userInfo.name}</div>
+                        <div className="text-sm font-medium leading-none text-gray-400">{userInfo.email}</div>
                       </div>
+                  </div>
+                  </div>
+                  ):(
+                    <div className="flex justify-center items-center h-full">
+                      <Link to="/login" className="text-white font-medium">Login</Link>
+                    </div>
+                  )}
                       <Link to="/cart">
                       <button
                         type="button"
@@ -183,23 +221,30 @@ import { useSelector } from 'react-redux'
                         
                       </button>
                       </Link>
-                      <span className="z-10 inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-        3
-      </span>
+                      {cartItems.length > 0 && (
+                          <span className="z-10 inline-flex items-center mb-7 -ml-3 rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{cartItems.reduce((a,c)=> a + c.qty,0)}</span>
+                        )}
                     </div>
-                    <div className="mt-3 space-y-1 px-2">
-                      {userNavigation.map((item) => (
-                        <DisclosureButton
-                          key={item.name}
-                          as="a"
-                          href={item.href}
+                    {userInfo?(
+                      <div className="mt-3 space-y-1 px-2">
+                      
+                        <Link
+                          to ='/profile'
                           className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                         >
-                          {item.name}
-                        </DisclosureButton>
-                      ))}
+                          Profile
+                        </Link>
+                        <Link
+                        onClick = {logouthandler}
+                          to ='/'
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        >
+                          Logout
+                        </Link>
+                      
                     </div>
-                  </div>
+                    ):(<></>)}
+                
                 </DisclosurePanel>
               </>
             )}
