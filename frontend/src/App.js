@@ -19,39 +19,50 @@ import {
   Link,
 } from "react-router-dom";
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
+import PrivateRoute from './pages/PrivateRoute';
+import { Outlet } from 'react-router-dom';
+import Navbar from './features/navbar/Navbar';
+import Footer from './features/common/Footer';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (<Home />),
-  },
-  {
-    path: "/login",
-    element: (<LoginPage />),
-  },
-  {
-    path: "/register",
-    element: (<SignupPage />),
-  },
-  {
-    path: "/cart",
-    element: (<CartPage/>),
-  },
-  {
-    path: "/checkout",
-    element: (<Checkout/>),
-  },
-  {
-    path: "/product-detail/:id",
-    element: (<ProductDetailsPage/>),
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: (<Home />),
+//   },
+//   {
+//     path: "/login",
+//     element: (<LoginPage />),
+//   },
+//   {
+//     path: "/register",
+//     element: (<SignupPage />),
+//   },
+//   {
+//     path: "/cart",
+//     element: (<CartPage/>),
+//   },
+  
+//   {
+//     path: "/product-detail/:id",
+//     element: (<ProductDetailsPage/>),
+//   },
+//   {
+//     path: "/checkout",
+//     element: (
+//       <PrivateRoute>
+//         <Checkout />
+//       </PrivateRoute>
+//     ),
+//   },
+// ]);
 
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
-      <ToastContainer/>
+      <Navbar>
+        <Outlet />
+      </Navbar>
+      <Footer/>
     </div>
   );
 }

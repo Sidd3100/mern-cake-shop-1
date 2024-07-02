@@ -7,9 +7,9 @@ export function ProductDetailsPage(props) {
 
     return (
         <>
-            <Navbar>
+           
                 <ProductDetails></ProductDetails>
-            </Navbar>
+            
         </>
     )
 }

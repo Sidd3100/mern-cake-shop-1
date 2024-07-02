@@ -9,10 +9,8 @@ export function Home() {
 
     return (
         <>
-            <Navbar>
-            <ProductList></ProductList>
-            </Navbar>
-            <Footer/>
+            <ProductList/>
+            
            
         </>
     )

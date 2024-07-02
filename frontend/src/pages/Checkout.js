@@ -1,5 +1,5 @@
-import React from 'react';
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import React from "react";
+import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import {
   Dialog,
@@ -10,6 +10,11 @@ import {
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { saveShippingAddress } from "../slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../features/navbar/Navbar";
+import CheckoutSteps from "../features/checkoutSteps/checkoutSteps";
 
 const products = [
   {
@@ -71,162 +76,247 @@ const addresses = [
     city: "Los Angeles",
     pinCode: "90046",
     state: "California",
-  }
-]
+  },
+];
 
 export function Checkout(props) {
-    const [open, setOpen] = useState(true);
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
 
-    return (
-        <>
-        <div className='mx-auto max-w-7xl px-4 sm:px-0 sm:py-0 lg:px-8 py-4'>  
-        <div className='grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5'>
-            <div className='lg:col-span-3'>
-           <form className='bg-white px-4 pb-8 border rounded-md'>
-            <div className='space-y-12'>
-           <div className="border-b border-gray-900/10 pb-12 mt-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+  const [open, setOpen] = useState(true);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState(shippingAddress?.phone || "");
+  const [email, setEmail] = useState(shippingAddress?.email || "");
+  const [country, setCountry] = useState(shippingAddress?.country || "");
+  const [streetAddress, setStreetAddress] = useState(
+    shippingAddress?.streetAddress || ""
+  );
+  const [city, setCity] = useState(shippingAddress?.city || "");
+  const [region, setRegion] = useState(shippingAddress?.region || "");
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || ""
+  );
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-3">
-              <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                First name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="first-name"
-                  id="first-name"
-                  autoComplete="given-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-            <div className="sm:col-span-3">
-              <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                Last name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      saveShippingAddress({
+        phone,
+        email,
+        country,
+        streetAddress,
+        city,
+        region,
+        postalCode,
+      })
+    );
+    navigate("/payment");
+  };
 
-            <div className="sm:col-span-3">
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+  return (
+    <>
+      
+      <div className="mx-auto max-w-4xl px-4 sm:px-0 sm:py-0 lg:px-8 py-4">
+        <div className="grid grid-cols-1  gap-y-10 ">
+          <div className="lg:col-span-3">
+            <form
+              className="bg-white px-4 py-8 border rounded-md"
+              onSubmit={handleSubmit}
+            >
+              <CheckoutSteps />
+              <div className="space-y-12">
+                <div className="border-b border-gray-900/10 pb-12 mt-12">
+                  <h2 className="text-base font-semibold leading-7 text-gray-900">
+                    Personal Information
+                  </h2>
+                  <p className="mt-1 text-sm leading-6 text-gray-600">
+                    Use a permanent address where you can receive mail.
+                  </p>
 
-            <div className="sm:col-span-3">
-              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-                Country
-              </label>
-              <div className="mt-2">
-                <select
-                  id="country"
-                  name="country"
-                  autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-            </div>
+                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="first-name"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Full Name
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          type="text"
+                          name="name"
+                          id="name"
+                          autoComplete="given-name"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
 
-            <div className="col-span-full">
-              <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
-                Street address
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="street-address"
-                  id="street-address"
-                  autoComplete="street-address"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="last-name"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Phone no.
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          type="text"
+                          name="last-name"
+                          id="last-name"
+                          autoComplete="family-name"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
 
-            <div className="sm:col-span-2 sm:col-start-1">
-              <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                City
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  autoComplete="address-level2"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Email address
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          id="email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
 
-            <div className="sm:col-span-2">
-              <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                State / Province
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="region"
-                  id="region"
-                  autoComplete="address-level1"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="country"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Country
+                      </label>
+                      <div className="mt-2">
+                        <select
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                          id="country"
+                          name="country"
+                          autoComplete="country-name"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                        >
+                          <option>United States</option>
+                          <option>Canada</option>
+                          <option>Mexico</option>
+                        </select>
+                      </div>
+                    </div>
 
-            <div className="sm:col-span-2">
-              <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
-                ZIP / Postal code
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autoComplete="postal-code"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            
-          </div>
-        </div>
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-          Reset
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Add Address
-        </button>
-      </div>
+                    <div className="col-span-full">
+                      <label
+                        htmlFor="street-address"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Street address
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={streetAddress}
+                          onChange={(e) => setStreetAddress(e.target.value)}
+                          type="text"
+                          name="street-address"
+                          id="street-address"
+                          autoComplete="street-address"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
 
-        <div className="border-b border-gray-900/10 pb-12">
+                    <div className="sm:col-span-2 sm:col-start-1">
+                      <label
+                        htmlFor="city"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        City
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          type="text"
+                          name="city"
+                          id="city"
+                          autoComplete="address-level2"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label
+                        htmlFor="region"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        State / Province
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={region}
+                          onChange={(e) => setRegion(e.target.value)}
+                          type="text"
+                          name="region"
+                          id="region"
+                          autoComplete="address-level1"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label
+                        htmlFor="postal-code"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        ZIP / Postal code
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          value={postalCode}
+                          onChange={(e) => setPostalCode(e.target.value)}
+                          type="text"
+                          name="postal-code"
+                          id="postal-code"
+                          autoComplete="postal-code"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-6 flex items-center justify-end gap-x-6">
+                  <button
+                    type="button"
+                    className="text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Proceed
+                  </button>
+                </div>
+                {/* saved shippingAddress */}
+                {/* <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Existing Addresses</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             Choose from Existing Addresses.
@@ -288,104 +378,105 @@ export function Checkout(props) {
               </div>
             </fieldset>
           </div>
+        </div> */}
+              </div>
+            </form>
+          </div>
+
+          {/* Cart items */}
+
+          {/* <div className="lg:col-span-2">
+            <main className="mx-auto my-8 px-4 py-4 max-w-7xl bg-white sm:px-0 sm:py-0 lg:px-8 border rounded-md">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 pt-8">
+                Cart
+              </h1>
+              <div className="mt-8">
+                <div className="flow-root">
+                  <ul role="list" className="-my-6 divide-y divide-gray-200">
+                    {products.map((product) => (
+                      <li key={product.id} className="flex py-6 px-6 lg:px-2">
+                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                          <img
+                            src={product.imageSrc}
+                            alt={product.imageAlt}
+                            className="h-full w-full object-cover object-center"
+                          />
+                        </div>
+
+                        <div className="ml-4 flex flex-1 flex-col ">
+                          <div>
+                            <div className="flex justify-between text-base font-medium text-gray-900 ">
+                              <h3>
+                                <a href={product.href}>{product.name}</a>
+                              </h3>
+                              <p className="ml-4">{product.price}</p>
+                            </div>
+                            <p className="mt-1 text-sm text-gray-500">
+                              {product.color}
+                            </p>
+                          </div>
+                          <div className="flex flex-1 items-end justify-between text-sm">
+                            <p className="text-gray-500">
+                              Qty
+                              <select>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                              </select>
+                            </p>
+
+                            <div className="flex">
+                              <button
+                                type="button"
+                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                <div className="flex justify-between text-base font-medium text-gray-900">
+                  <p>Subtotal</p>
+                  <p>$262.00</p>
+                </div>
+                <p className="mt-0.5 text-sm text-gray-500">
+                  Shipping and taxes calculated at checkout.
+                </p>
+                <div className="mt-6">
+                  <Link
+                    to="/pay"
+                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                  >
+                    Pay and Order
+                  </Link>
+                </div>
+                <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                  <p>
+                    or{" "}
+                    <Link to="/">
+                      <button
+                        type="button"
+                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                        onClick={() => setOpen(false)}
+                      >
+                        Continue Shopping
+                        <span aria-hidden="true"> &rarr;</span>
+                      </button>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </main>
+          </div> */}
         </div>
       </div>
-
-      
-            </form> 
-            </div>
-
-            {/* Cart items */}
-
-            <div className='lg:col-span-2'>
-            <main className="mx-auto my-8 px-4 py-4 max-w-7xl bg-white sm:px-0 sm:py-0 lg:px-8 border rounded-md">
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 pt-8">
-              Cart
-            </h1>
-        <div className="mt-8">
-          <div className="flow-root">
-            <ul role="list" className="-my-6 divide-y divide-gray-200">
-              {products.map((product) => (
-                <li key={product.id} className="flex py-6 px-6 lg:px-2">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-
-                  <div className="ml-4 flex flex-1 flex-col ">
-                    <div>
-                      <div className="flex justify-between text-base font-medium text-gray-900 ">
-                        <h3>
-                          <a href={product.href}>{product.name}</a>
-                        </h3>
-                        <p className="ml-4">{product.price}</p>
-                      </div>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.color}
-                      </p>
-                    </div>
-                    <div className="flex flex-1 items-end justify-between text-sm">
-                      <p className="text-gray-500">Qty 
-                        <select>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                        </select>
-                      </p>
-
-                      <div className="flex">
-                        <button
-                          type="button"
-                          className="font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-          <div className="flex justify-between text-base font-medium text-gray-900">
-            <p>Subtotal</p>
-            <p>$262.00</p>
-          </div>
-          <p className="mt-0.5 text-sm text-gray-500">
-            Shipping and taxes calculated at checkout.
-          </p>
-          <div className="mt-6">
-            <Link to="/pay"
-              className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-            >
-              Pay and Order
-            </Link>
-          </div>
-          <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-            <p>
-              or{" "}
-              <Link to="/">
-              <button
-                type="button"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-                onClick={() => setOpen(false)}
-              >
-                Continue Shopping
-                <span aria-hidden="true"> &rarr;</span>
-              </button>
-              </Link>
-            </p>
-          </div>
-        </div>
-      </main>
-            </div>
-            </div>
-            </div>
-        </>
-    )
+     
+    </>
+  );
 }
