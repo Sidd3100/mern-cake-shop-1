@@ -126,7 +126,7 @@ export function Checkout(props) {
               className="bg-white px-4 py-8 border rounded-md"
               onSubmit={handleSubmit}
             >
-              <CheckoutSteps />
+              <CheckoutSteps currentStep = '2'/>
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12 mt-12">
                   <h2 className="text-base font-semibold leading-7 text-gray-900">

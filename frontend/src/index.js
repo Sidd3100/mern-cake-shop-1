@@ -27,6 +27,7 @@ import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import App from "./App";
 import Payment from "./features/payment/Payment";
+import PlaceOrder from "./pages/PlaceOrder";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
     <Route path="" element={<PrivateRoute/>}>
     <Route path="/checkout" element={<Checkout/>}/>
     <Route path="/payment" element={<Payment/>}/>
+    <Route path='/placeorder' element={<PlaceOrder/>}/>
     </Route>
     </Route>,
     

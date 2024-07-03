@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CheckoutSteps from "../checkoutSteps/checkoutSteps";
+import CheckoutSteps from "../checkoutSteps/checkoutSteps.js";
 import { savePaymentMethod } from "../../slices/cartSlice";
 
 
@@ -22,7 +22,7 @@ export default function Payment() {
     }
 
     useEffect(() => {
-        if(!shippingAddress.address){
+        if(!shippingAddress.streetAddress){
             navigate("/checkout");
         }
 
@@ -32,7 +32,7 @@ export default function Payment() {
 
     return (
         <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <CheckoutSteps />
+            <CheckoutSteps currentStep ='3'/>
             <h1 className="block text-gray-700 text-xl font-bold my-2">Payment Method</h1>
             <form onSubmit={handleSubmit}>
                 {/* <div className="mb-4">
@@ -50,7 +50,7 @@ export default function Payment() {
                     </label>
                 </div> */}
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="paypal">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Paypal">
                         <input
                             type="radio"
                             id="PayPal"
@@ -64,7 +64,7 @@ export default function Payment() {
                     </label>
                 </div>
                 <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Continue
                     </button>
                 </div>

@@ -1,10 +1,10 @@
 import { useState } from "react"
 
-const CheckoutSteps = () => {
+const CheckoutSteps = (props) => {
 
     const [steps, setStep] = useState({
         stepsItems: ["SignIn", "Shipping", "Payment", "Place Order"],
-        currentStep: 2
+        currentStep: props.currentStep
     })
 
     return (
