@@ -140,6 +140,12 @@ import { useDispatch } from 'react-redux'
                           Profile
                         </Link>
                         <Link
+                          to ='/userOrders'
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        >
+                          My Orders
+                        </Link>
+                        <Link
                           onClick = {logouthandler}
                           to ='/'
                           className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
