@@ -28,6 +28,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from "./App";
 import Payment from "./features/payment/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
+import OrderDetailsPage from "./pages/OrderDetails";
+
+import {PayPalScriptProvider} from '@paypal/react-paypal-js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +44,7 @@ const router = createBrowserRouter(
     <Route path="/checkout" element={<Checkout/>}/>
     <Route path="/payment" element={<Payment/>}/>
     <Route path='/placeorder' element={<PlaceOrder/>}/>
+    <Route path='/order/:id' element={<OrderDetailsPage/>}/>
     </Route>
     </Route>,
     
@@ -88,8 +92,10 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <PayPalScriptProvider deferLoading = {true}>
     <RouterProvider router={router} />
     <ToastContainer/>
+    </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );
