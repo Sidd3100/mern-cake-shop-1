@@ -87,7 +87,6 @@ export function Checkout(props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState(shippingAddress?.phone || "");
   const [email, setEmail] = useState(shippingAddress?.email || "");
-  const [country, setCountry] = useState(shippingAddress?.country || "");
   const [streetAddress, setStreetAddress] = useState(
     shippingAddress?.streetAddress || ""
   );
@@ -106,7 +105,6 @@ export function Checkout(props) {
       saveShippingAddress({
         phone,
         email,
-        country,
         streetAddress,
         city,
         region,
@@ -137,9 +135,9 @@ export function Checkout(props) {
                   </p>
 
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
+                    <div className="sm:col-span-full">
                       <label
-                        htmlFor="first-name"
+                        htmlFor="name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Full Name
@@ -157,25 +155,7 @@ export function Checkout(props) {
                       </div>
                     </div>
 
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Phone no.
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
+                    
 
                     <div className="sm:col-span-3">
                       <label
@@ -199,24 +179,21 @@ export function Checkout(props) {
 
                     <div className="sm:col-span-3">
                       <label
-                        htmlFor="country"
+                        htmlFor="phone"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Country
+                        Phone no.
                       </label>
                       <div className="mt-2">
-                        <select
-                          value={country}
-                          onChange={(e) => setCountry(e.target.value)}
-                          id="country"
-                          name="country"
-                          autoComplete="country-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                        >
-                          <option>United States</option>
-                          <option>Canada</option>
-                          <option>Mexico</option>
-                        </select>
+                        <input
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          type="tel"
+                          name="phone"
+                          id="phone"
+                          autoComplete="family-name"
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
                       </div>
                     </div>
 

@@ -24,10 +24,7 @@ export default function Cart() {
     navigate('/login?redirect=/checkout');
   }
 
-  console.log (cartItems);
-  const selectedSize = cartItems.find((x) => x.sizes.name === cartItems.size);
-  console.log(selectedSize)
-
+ 
 
   return (
     <>
@@ -53,8 +50,8 @@ export default function Cart() {
                 <li key={product._id} className="flex py-6">
                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                     <img
-                      src={product.images.src}
-                      alt={product.images.alt}
+                      src={product.href}
+                      alt={product.name}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
@@ -72,12 +69,12 @@ export default function Cart() {
                       </p>
                     </div>
                     <div className="flex flex-1 items-end justify-between text-sm">
-                      <p className="text-gray-500">Qty{" "}<span>{product.size} </span>
-                        <select value = {product.qty} onChange={(e)=>{addToCartHandler(product,Number(e.target.value))}}>
-                          {selectedSize && [...Array(selectedSize.countInStock).keys()].map((x)=>(
-                            <option key={x+1} value={x+1}>{x+1}</option>
-                          ))}
-                        </select>
+                      <p className="text-gray-500">Qty{" "}<span>{product.size.name} </span>
+                      <select value={product.qty} onChange={(e) => { addToCartHandler(product, Number(e.target.value)) }}>
+                     {[...Array(product.size.countInstock).keys()].map((x) => (
+        <option key={x+1} value={x+1}>{x+1}</option>
+      ))}
+    </select>
                       </p>
 
                       <div className="flex">

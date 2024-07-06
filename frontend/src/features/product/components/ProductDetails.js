@@ -64,21 +64,33 @@ export default function ProductDetails() {
   const {id: productId}= useParams()
 
   const {data: product, error, isLoading} = useGetProductDetailsQuery(productId)
-  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedSize, setSelectedSize] = useState({ name: '', countInStock: 0 ,inStock: false});
+  const [cakeMessage, setCakeMessage] = useState('');
+  const availableQty = selectedSize.countInStock;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const addToCartHandler = () => {
-    
-    dispatch(addToCart({...product,cakeMessage, qty: 1, size: selectedSize.name}))
-    navigate('/cart')
-  }
-
-  const [cakeMessage, setCakeMessage] = useState('')
+ 
   const handleInputChange = (e) => {
     setCakeMessage(e.target.value)
   }
+  const sizes = product?.sizes || [];
+
+  const handleSizeChange = (sizeName) => {
+    const size = sizes.find(s => s.name === sizeName);
+    if (size) {
+      setSelectedSize(size);
+    }
+  };
+
+  const addToCartHandler = () => {
+    
+    dispatch(addToCart({...product,cakeMessage, qty: 1, size: selectedSize, availableQty: selectedSize.countInStock}))
+    navigate('/cart')
+  }
+
+  
+  
   return (
     <>
     {isLoading ? (<Loader/>): error?(<div className="flex w-full flex-col gap-2">
@@ -181,14 +193,15 @@ export default function ProductDetails() {
 
                 <fieldset aria-label="Choose a size" className="mt-4">
                   <RadioGroup
-                    value={selectedSize}
-                    onChange={setSelectedSize}
+                    value={selectedSize.name}
+                    onChange={handleSizeChange}
                     className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
                   >
                     {product.sizes.map((size) => (
                       <Radio
                         key={size.name}
-                        value={size}
+                        value={size.name}
+                        
                         disabled={!size.inStock}
                         className={({ focus }) =>
                           classNames(

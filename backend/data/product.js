@@ -69,6 +69,76 @@ const products =  [
         
         
     },
+    {
+        
+        "name": "Powder Canister",
+        "description": "The Powder Canister is a finely milled setting powder designed to set makeup and control shine. With a lightweight and translucent formula, it provides a smooth and matte finish.",
+        "category": "beauty",
+        "price": 14.44,
+
+        "href":"https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
+        
+        "rating": 4.84,
+
+        "images": [
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            },
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            },
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            },
+            {
+                "src": "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+                "alt": "Essence Mascara Lash Princess"
+            }
+
+        ],
+        "details": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+        "sizes": [
+            { name: '0.5Kg', inStock: false ,countInstock:0},
+            { name: '1Kg', inStock: true, countInstock:10 },
+            { name: '2Kg', inStock: true ,countInstock:3},
+            { name: '2.5Kg', inStock: true, countInstock:5 },
+            { name: '3Kg', inStock: true,countInstock:4 },
+            { name: '4Kg', inStock: true,countInstock:6 },
+           
+            
+          ],
+        
+        "highlights": "Volumizing, Lengthening, Cruelty-Free",
+        
+        // "reviews": [
+        //     {
+        //         "rating": 2,
+        //         "comment": "Very unhappy with my purchase!",
+        //         "date": "2024-05-23T08:56:21.618Z",
+        //         "reviewerName": "John Doe",
+        //         "reviewerEmail": "john.doe@x.dummyjson.com"
+        //     },
+        //     {
+        //         "rating": 2,
+        //         "comment": "Not as described!",
+        //         "date": "2024-05-23T08:56:21.618Z",
+        //         "reviewerName": "Nolan Gonzalez",
+        //         "reviewerEmail": "nolan.gonzalez@x.dummyjson.com"
+        //     },
+        //     {
+        //         "rating": 5,
+        //         "comment": "Very satisfied!",
+        //         "date": "2024-05-23T08:56:21.618Z",
+        //         "reviewerName": "Scarlett Wright",
+        //         "reviewerEmail": "scarlett.wright@x.dummyjson.com"
+        //     }
+        //],
+        
+        
+    },
     // {
         
     //     "name": "Eyeshadow Palette with Mirror",
