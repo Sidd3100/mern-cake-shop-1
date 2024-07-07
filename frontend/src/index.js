@@ -31,8 +31,12 @@ import PlaceOrder from "./pages/PlaceOrder";
 import OrderDetailsPage from "./pages/OrderDetails";
 import Profile from "./pages/Profile";
 import UserOrders from "./pages/UserOrders";
+import AdminRoute from "./pages/AdminRoute";
+import OrderList from "./features/admin/OrderList";
 
 import {PayPalScriptProvider} from '@paypal/react-paypal-js';
+import Dummy from "./pages/dummy";
+import ProductListAdmin from "./features/admin/ProductListAdmin";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +46,8 @@ const router = createBrowserRouter(
     <Route path="/register" element={<SignupPage />} />
     <Route path="/cart" element={<CartPage />} />
     <Route path="/product-detail/:id" element={<ProductDetailsPage />} />
+    <Route path="/dummy" element={<Dummy/>} />
+
     <Route path="" element={<PrivateRoute/>}>
     <Route path="/checkout" element={<Checkout/>}/>
     <Route path="/payment" element={<Payment/>}/>
@@ -49,6 +55,11 @@ const router = createBrowserRouter(
     <Route path='/order/:id' element={<OrderDetailsPage/>}/>
     <Route path='/profile' element={<Profile/>}/>
     <Route path = '/userOrders' element = {<UserOrders/>}/>
+    </Route>
+    
+    <Route path = "" element= {<AdminRoute/>}>
+    <Route path = "/admin/orderlist" element = {<OrderList/>}/>
+    <Route path = "/admin/productlist" element = {<ProductListAdmin/>}/>
     </Route>
     </Route>,
     
