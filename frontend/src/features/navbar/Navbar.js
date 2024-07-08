@@ -35,7 +35,7 @@ import { Fragment } from 'react'
   const userNavigation = [
     { name: 'Products', link: '/admin/productlist' },
     { name: 'Orders', link: '/admin/orderlist' },
-    { name: 'Users', link: '/userlist' },
+    { name: 'Users', link: '/admin/userlist' },
     { name: 'Logout', link: '/' },
   ];
   
