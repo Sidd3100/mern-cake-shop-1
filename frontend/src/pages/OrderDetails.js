@@ -102,11 +102,11 @@ const OrderDetailsPage = () => {
 
         <div className="mt-6">
           <div className="bg-gray-100 rounded-lg p-6 mb-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center bg-slate-100">
               <h2 className="text-lg font-bold text-gray-900">Order ID: {order._id}</h2>
               <p className="text-sm text-gray-600">Placed on: {format(new Date(order.createdAt), 'MMMM dd, yyyy')}</p>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 ">
               <h3 className="text-md font-medium text-gray-900">Order Items</h3>
               <ul className="mt-2">
                 {order.orderItems.map((item) => (
@@ -122,22 +122,22 @@ const OrderDetailsPage = () => {
             </div>
             <div className="mt-4 flex justify-between">
               <p className="text-sm font-medium text-gray-900">Total Price:</p>
-              <p className="text-sm font-medium text-gray-700">Rs {order.totalPrice}</p>
+              <p className="text-sm font-medium text-gray-700">$ {order.totalPrice}</p>
             </div>
-            <div className="mt-4">
-              <p className="text-sm font-medium text-gray-900">Status:</p>
+            <div className="mt-4 flex justify-around border border-gray-500 bg-white py-6 rounded-md">
+              <p className="text-md font-medium text-gray-900">Status:</p>
               <p className="text-sm text-gray-700">
                 {order.isDelivered ? (
-                  <span className="text-green-600">Delivered</span>
+                  <span className="text-green-600 font-semibold">Delivered</span>
                 ) : (
-                  <span className="text-yellow-600">Not Delivered</span>
+                  <span className="text-yellow-600 font-semibold">Not Delivered</span>
                 )}
               </p>
               <p className="text-sm text-gray-700">
                 {order.isPaid ? (
-                  <span className="text-green-600">Paid</span>
+                  <span className="text-green-600 font-semibold">Paid</span>
                 ) : (
-                  <span className="text-red-600">Not Paid</span>
+                  <span className="text-red-600 font-semibold">Not Paid</span>
                 )}
               </p>
             </div>
@@ -147,15 +147,15 @@ const OrderDetailsPage = () => {
                   {loadingPay && <Loader />}
 
                   {isPending ? <Loader /> : (
-                    <div>
-                      <button
+                    <div className='flex flex-col max-w-xl items-center justify-center mx-auto border border-gray-700 rounded-md py-6 px-2 my-4 bg-white'>
+                      {/* <button
                         type="submit"
                         onClick={onApproveTest}
                         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         Test Pay Order
-                      </button>
-                      <div>
+                      </button> */}
+                      <div className='w-full mt-2 py-4'>
                         <PayPalButtons
                           createOrder={createOrder}
                           onApprove={onApprove}

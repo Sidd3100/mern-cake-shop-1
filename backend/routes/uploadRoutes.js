@@ -1,6 +1,7 @@
 import multer from 'multer';
 import express from 'express';
 import path from 'path';
+import { updateProduct } from '../controllers/productController.js';
 
 const router = express.Router();
 
@@ -31,13 +32,7 @@ const upload = multer({
         checkFileType(file, cb);
     },
 });
-
-router.post('/', upload.array('images', 4), (req, res) => {  // Allow up to 10 files
-    const filePaths = req.files.map(file => `/${file.path}`);
-    res.send({
-        message: 'Images uploaded',
-        images: filePaths,
-    });
-});
+  
+router.put('/products/:id', upload.array('images', 4), updateProduct);
 
 export default router;
