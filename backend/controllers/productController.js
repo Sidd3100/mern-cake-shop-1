@@ -44,8 +44,7 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
-    const { name, price, description, category, href, rating, details, sizes, highlights } = req.body;
-    const images = req.files.map(file => `/${file.path}`);
+    const { name, price, description, category, href, rating, details, sizes, highlights, images } = req.body;
 
     const product = await Product.findById(req.params.id);
 
@@ -59,7 +58,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.details = details || product.details;
         product.sizes = sizes || product.sizes;
         product.highlights = highlights || product.highlights;
-        product.images = images.length > 0 ? images : product.images;
+        product.images = images || product.images;
 
         const updatedProduct = await product.save();
         res.status(200).json(updatedProduct);
